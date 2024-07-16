@@ -1,6 +1,7 @@
 package api
 
 import (
+	"encoding/json"
 	"errors"
 
 	"github.com/gofiber/fiber/v2"
@@ -28,4 +29,20 @@ func GetUserId(c *fiber.Ctx) string {
 	user := c.Locals("user").(*jwt.Token)
 	claims := user.Claims.(jwt.MapClaims)
 	return claims["user_id"].(string)
+}
+
+func GetUpdatedField(req []byte) ([]string, error) {
+	var f []string
+
+	m := make(map[string]any)
+
+	if err := json.Unmarshal(req, &m); err != nil {
+		return nil, err
+	}
+
+	for s := range m {
+		f = append(f, s)
+	}
+
+	return f, nil
 }

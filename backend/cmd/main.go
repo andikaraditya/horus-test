@@ -6,6 +6,7 @@ import (
 	"time"
 
 	"github.com/andikaraditya/horus-test/backend/internal/user"
+	"github.com/andikaraditya/horus-test/backend/internal/voucher"
 	jwtware "github.com/gofiber/contrib/jwt"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/logger"
@@ -31,7 +32,7 @@ func main() {
 	})
 
 	app.Post("/register", user.CreateUser)
-	app.Post("login", user.Login)
+	app.Post("/login", user.Login)
 
 	app.Use(jwtware.New(jwtware.Config{
 		SigningKey: jwtware.SigningKey{Key: []byte("secret")},
@@ -40,6 +41,12 @@ func main() {
 	app.Get("/restricted", func(c *fiber.Ctx) error {
 		return c.SendString("Hello, Login!")
 	})
+
+	app.Post("/vouchers", voucher.CreateVoucher)
+	app.Get("/vouchers", voucher.GetVouchers)
+	app.Get("/vouchers/:voucherId", voucher.GetVoucher)
+	app.Put("/vouchers/:voucherId", voucher.UpdateVoucher)
+	app.Delete("/vouchers/:voucherId", voucher.DeleteVoucher)
 
 	log.Fatal(app.Listen(":3000"))
 }
