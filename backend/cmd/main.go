@@ -7,6 +7,7 @@ import (
 
 	"github.com/andikaraditya/horus-test/backend/internal/user"
 	"github.com/andikaraditya/horus-test/backend/internal/voucher"
+	"github.com/andikaraditya/horus-test/backend/internal/voucher/claim"
 	jwtware "github.com/gofiber/contrib/jwt"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/logger"
@@ -47,6 +48,12 @@ func main() {
 	app.Get("/vouchers/:voucherId", voucher.GetVoucher)
 	app.Put("/vouchers/:voucherId", voucher.UpdateVoucher)
 	app.Delete("/vouchers/:voucherId", voucher.DeleteVoucher)
+	app.Post("/vouchers/:voucherId/claim", claim.CreateClaimVoucher)
+
+	app.Get("/claims", claim.GetClaimVouchers)
+	app.Get("/claims/summary", claim.GetClaimSummary)
+	app.Get("/claims/:claimVoucherId", claim.GetClaimVoucher)
+	app.Delete("/claims/:claimVoucherId", claim.DeleteClaimVoucher)
 
 	log.Fatal(app.Listen(":3000"))
 }
