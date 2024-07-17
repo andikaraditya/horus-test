@@ -104,8 +104,8 @@ func (s *srv) getVouchers(param string) ([]Voucher, error) {
 	args := []any{"active"}
 
 	if len(param) > 0 {
-		sb.WriteString("AND kategori = $2")
-		args = append(args, param)
+		args = append(args, strings.Split(param, ","))
+		sb.WriteString("AND kategori = ANY($2)")
 	}
 	rows, err := s.db.Query(
 		`SELECT 
