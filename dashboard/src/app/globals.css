@@ -1,3 +1,9 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer utilities {
+  .form-input {
+    @apply border-[0.1rem] border-slate-300 rounded-md w-full h-8 ps-2;
+  }
+}
